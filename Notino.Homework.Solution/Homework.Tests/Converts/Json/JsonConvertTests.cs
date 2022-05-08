@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Homework.Adapters.Jsons;
+using Homework.Adapters.Jsons.Exceptions;
 using Homework.Models;
 using Newtonsoft.Json;
 using Tynamix.ObjectFiller;
@@ -44,6 +45,22 @@ namespace Homework.Tests.Converts.Json
 
             //then
             convertedDocument.Should().BeEquivalentTo(expectedDocument);
+        }
+
+        [Fact]
+        public void ShouldThrowJsonToDocumentConvertFailedExcpetionWhenInvalidJsonTextIsGiven()
+        {
+            //given
+            Document originalDocument = GenerateRandomDocument();
+            string validJsonText = JsonConvert.SerializeObject(originalDocument);
+            string invalidJsonText = validJsonText.Replace("{", ".");
+
+            //when
+            Document document = this.jsonConvertAdapter.ConvertToDocument(invalidJsonText);
+
+            //then
+            Assert.Throws<JsonToDocumentConvertFailedExcpetion>(() =>
+                this.jsonConvertAdapter.ConvertToDocument(invalidJsonText));
         }
 
         private static string GetRandomText() => new MnemonicString().GetValue();
