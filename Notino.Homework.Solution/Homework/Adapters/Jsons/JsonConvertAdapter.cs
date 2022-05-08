@@ -7,7 +7,9 @@ namespace Homework.Adapters.Jsons
     {
         public Document ConvertToDocument(string text)
         {
-            throw new NotImplementedException();
+            Document? document = JsonConvert.DeserializeObject<Document>(text);
+
+            return document!;
         }
 
         public string ConvertToText(Document document)
