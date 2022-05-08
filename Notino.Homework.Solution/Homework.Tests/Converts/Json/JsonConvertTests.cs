@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Homework.Adapters.Jsons;
-using Homework.Adapters.Jsons.Exceptions;
+using Homework.Adapters.Shared.Exceptions;
 using Homework.Models;
 using Newtonsoft.Json;
 using Tynamix.ObjectFiller;
@@ -59,7 +59,7 @@ namespace Homework.Tests.Converts.Json
             Document document = this.jsonConvertAdapter.ConvertToDocument(invalidJsonText);
 
             //then
-            Assert.Throws<JsonToDocumentConvertFailedExcpetion>(() =>
+            Assert.Throws<AdapterConvertToDocumentFailedException>(() =>
                 this.jsonConvertAdapter.ConvertToDocument(invalidJsonText));
         }
 
