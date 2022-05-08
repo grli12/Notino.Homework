@@ -53,10 +53,9 @@ namespace Homework.Tests.Converts.Json
             //given
             Document originalDocument = GenerateRandomDocument();
             string validJsonText = JsonConvert.SerializeObject(originalDocument);
-            string invalidJsonText = validJsonText.Replace("{", ".");
 
             //when
-            Document document = this.jsonConvertAdapter.ConvertToDocument(invalidJsonText);
+            string invalidJsonText = validJsonText.Replace("{", ".");
 
             //then
             Assert.Throws<AdapterConvertToDocumentFailedException>(() =>

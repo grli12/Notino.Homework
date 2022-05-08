@@ -1,4 +1,5 @@
-﻿using Homework.Models;
+﻿using Homework.Adapters.Shared.Exceptions;
+using Homework.Models;
 using Newtonsoft.Json;
 
 namespace Homework.Adapters.Jsons
@@ -7,9 +8,17 @@ namespace Homework.Adapters.Jsons
     {
         public Document ConvertToDocument(string text)
         {
-            Document? document = JsonConvert.DeserializeObject<Document>(text);
+            try
+            {
+                Document? document = JsonConvert.DeserializeObject<Document>(text);
 
-            return document!;
+                return document!;
+            }
+            catch (Exception ex)
+            {
+                throw new AdapterConvertToDocumentFailedException(innerException: ex);
+            }
+            
         }
 
         public string ConvertToText(Document document)
