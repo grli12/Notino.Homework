@@ -1,4 +1,5 @@
 ﻿using Homework.Models;
+using Newtonsoft.Json;
 
 namespace Homework.Adapters.Jsons
 {
@@ -11,7 +12,7 @@ namespace Homework.Adapters.Jsons
 
         public string ConvertToText(Document document)
         {
-            throw new NotImplementedException();
+            return JsonConvert.SerializeObject(document);
         }
     }
 }
