@@ -21,7 +21,7 @@ namespace Homework.Tests.Converts.Json
         {
             //given
             Document givenDocument = GenerateRandomDocument();
-            string expectedJsonText = Newtonsoft.Json.JsonConvert.SerializeObject(givenDocument);
+            string expectedJsonText = JsonConvert.SerializeObject(givenDocument);
 
             //when
             string convertedText = this.jsonConvertAdapter.ConvertToText(givenDocument);
