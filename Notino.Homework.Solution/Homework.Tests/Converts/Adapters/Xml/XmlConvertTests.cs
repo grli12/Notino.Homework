@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Homework.Adapters.Shared.Exceptions;
 using Homework.Adapters.Xmls;
 using Homework.Models;
 using System;
@@ -56,6 +57,21 @@ namespace Homework.Tests.Converts.Adapters.Xml
 
             //then
             convertedDocument.Should().BeEquivalentTo(expectedDocument);
+        }
+
+        [Fact]
+        public void ShouldThrowAdapterConvertToDocumentFailedExceptionWhenInvalidXmlTextIsGiven()
+        {
+            //given
+            Document validDocument = GenerateRandomDocument();
+            string validXmlText = BuildXDocument(validDocument).ToString();
+
+            //when
+            string invalidXmlText = validXmlText.Replace("<", "");
+
+            //then
+            Assert.Throws<AdapterConvertToDocumentFailedException>(() =>
+                this.xmlConvertAdapter.ConvertToDocument(invalidXmlText));
         }
 
         private static string GetRandomText() => new MnemonicString().GetValue();
