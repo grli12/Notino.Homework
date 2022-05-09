@@ -7,7 +7,15 @@ namespace Homework.Adapters.Xmls
     {
         public Document ConvertToDocument(string input)
         {
-            throw new NotImplementedException();
+            XDocument xDocument = XDocument.Parse(input);
+
+            var document = new Document
+            {
+                Title = GetValueFromElement(xDocument, nameof(Document.Title)),
+                Text = GetValueFromElement(xDocument, nameof(Document.Text)),
+            };
+
+            return document;
         }
 
         public string ConvertToText(Document document)
@@ -17,6 +25,21 @@ namespace Homework.Adapters.Xmls
                     new XElement(nameof(document.Title), document.Title),
                            new XElement(nameof(document.Text), document.Text)));
             return xDoc.ToString();
+        }
+
+        private string GetValueFromElement(XDocument xDocuement, string elementName)
+        {
+            if(xDocuement.Root != null)
+            {
+                XElement? element = xDocuement.Root.Element(elementName);
+                
+                if(element != null)
+                {
+                    return element.Value;
+                }
+            }
+
+            return string.Empty;
         }
     }
 }
