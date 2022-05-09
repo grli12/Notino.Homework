@@ -1,4 +1,5 @@
-﻿using Homework.Models;
+﻿using Homework.Adapters.Shared.Exceptions;
+using Homework.Models;
 using System.Xml.Linq;
 
 namespace Homework.Adapters.Xmls
@@ -7,15 +8,23 @@ namespace Homework.Adapters.Xmls
     {
         public Document ConvertToDocument(string input)
         {
-            XDocument xDocument = XDocument.Parse(input);
-
-            var document = new Document
+            try
             {
-                Title = GetValueFromElement(xDocument, nameof(Document.Title)),
-                Text = GetValueFromElement(xDocument, nameof(Document.Text)),
-            };
+                XDocument xDocument = XDocument.Parse(input);
 
-            return document;
+                var document = new Document
+                {
+                    Title = GetValueFromElement(xDocument, nameof(Document.Title)),
+                    Text = GetValueFromElement(xDocument, nameof(Document.Text)),
+                };
+
+                return document;
+            }
+            catch(Exception ex)
+            {
+                throw new AdapterConvertToDocumentFailedException(innerException: ex);
+            }
+            
         }
 
         public string ConvertToText(Document document)
