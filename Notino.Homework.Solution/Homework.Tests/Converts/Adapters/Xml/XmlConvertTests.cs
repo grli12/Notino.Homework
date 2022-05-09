@@ -26,17 +26,36 @@ namespace Homework.Tests.Converts.Adapters.Xml
         {
             //given
             Document validDocument = GenerateRandomDocument();
-            XDocument xDoc = new XDocument(
-                new XElement("Root", 
-                    new XElement(nameof(validDocument.Title), validDocument.Title),
-                           new XElement(nameof(validDocument.Text), validDocument.Text)));
+            XDocument xDoc = BuildXDocument(validDocument);
             string expectedXmlText = xDoc.ToString();
 
             //when
-            string convertedText = xmlConvertAdapter.ConvertToText(validDocument);
+            string convertedText = this.xmlConvertAdapter.ConvertToText(validDocument);
 
             //then
             convertedText.Should().BeEquivalentTo(expectedXmlText);
+        }
+
+        [Fact]
+        public void ShouldConvertXmlTextToDocument()
+        {
+            //given
+            string text = GetRandomText();
+            string title = GetRandomText();
+
+            Document expectedDocument = new Document
+            {
+                Title = title,
+                Text = text
+            };
+
+            string inputXmlText = BuildXDocument(expectedDocument).ToString(); 
+
+            //when
+            Document convertedDocument = this.xmlConvertAdapter.ConvertToDocument(inputXmlText);
+
+            //then
+            convertedDocument.Should().BeEquivalentTo(expectedDocument);
         }
 
         private static string GetRandomText() => new MnemonicString().GetValue();
@@ -50,6 +69,14 @@ namespace Homework.Tests.Converts.Adapters.Xml
             };
 
             return document;
+        }
+
+        private static XDocument BuildXDocument(Document document)
+        {
+            return new XDocument(
+                new XElement("Root",
+                    new XElement(nameof(document.Title), document.Title),
+                           new XElement(nameof(document.Text), document.Text)));
         }
     }
 }
