@@ -1,4 +1,5 @@
 ﻿using Homework.Models;
+using System.Xml.Linq;
 
 namespace Homework.Adapters.Xmls
 {
@@ -11,7 +12,11 @@ namespace Homework.Adapters.Xmls
 
         public string ConvertToText(Document document)
         {
-            throw new NotImplementedException();
+            XDocument xDoc = new XDocument(
+                new XElement("Root",
+                    new XElement(nameof(document.Title), document.Title),
+                           new XElement(nameof(document.Text), document.Text)));
+            return xDoc.ToString();
         }
     }
 }
