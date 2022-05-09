@@ -48,7 +48,7 @@ namespace Homework.Tests.Converts.Adapters.Json
         }
 
         [Fact]
-        public void ShouldThrowJsonToDocumentConvertFailedExcpetionWhenInvalidJsonTextIsGiven()
+        public void ShouldThrowAdapterConvertToDocumentFailedExcpetionWhenInvalidJsonTextIsGiven()
         {
             //given
             Document originalDocument = GenerateRandomDocument();
