@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using Tynamix.ObjectFiller;
 using Xunit;
 
-namespace Homework.Tests.Converts.Json
+namespace Homework.Tests.Converts.Adapters.Json
 {
     public partial class JsonConvertTests
     {
