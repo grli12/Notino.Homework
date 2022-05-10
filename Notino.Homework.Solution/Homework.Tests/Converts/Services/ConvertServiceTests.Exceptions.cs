@@ -242,6 +242,10 @@ namespace Homework.Tests.Converts.Services
                     expectedConvertedFileSaveFailedException))),
                         Times.Once());
 
+            this.storageBrokerMock.Verify(storageBroker =>
+                storageBroker.WriteTextToFileAsync(It.IsAny<string>(), somePath),
+                    Times.Once);
+
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }

@@ -4,6 +4,7 @@ using Homework.Adapters.Resolvers.Exceptions;
 using Homework.Adapters.Shared.Exceptions;
 using Homework.Brokers.Loggings;
 using Homework.Brokers.Storages;
+using Homework.Brokers.Storages.Exceptions;
 using Homework.Constants;
 using Homework.Models;
 using Homework.Services.Converts.Exceptions;
@@ -53,6 +54,10 @@ namespace Homework.Services.Converts
             {
                 throw CreateAndLogConvertFailedException(convertFromDocumentFailedException);
             }
+            catch(FileAlreadyExistsException fileAlreadyExistsException)
+            {
+                throw CreateAndLogConvertedFileSaveFailedException(fileAlreadyExistsException);
+            }
 
         }
 
@@ -69,6 +74,16 @@ namespace Homework.Services.Converts
                     return outputText;
                 }
             }
+        }
+
+        private ConvertedFileSaveFailedException CreateAndLogConvertedFileSaveFailedException(Exception innerException)
+        {
+            var convertedFileSaveFailedException =
+                new ConvertedFileSaveFailedException(innerException);
+
+            this.loggingBroker.LogError(convertedFileSaveFailedException);
+
+            return convertedFileSaveFailedException;
         }
 
         private UnsupportedConvertException CreateAndLogUnsupportedConvertException(Exception innerException)
