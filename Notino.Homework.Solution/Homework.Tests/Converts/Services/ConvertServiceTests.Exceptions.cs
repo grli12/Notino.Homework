@@ -249,5 +249,48 @@ namespace Homework.Tests.Converts.Services
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowConvertedFileSaveFailedExceptionOnConvertWhenStorageFileSaveFailedExceptionIsThrownAndLogItAsync()
+        {
+            //given
+            string somePath = "somePath";
+            byte[] dummyData = new byte[10];
+            var someInnerException = new Exception("Some inner exception");
+
+            var storageFileSaveFailedException =
+                new StorageFileSaveFailedException(someInnerException);
+
+            var expectedConvertedFileSaveFailedException =
+                new ConvertedFileSaveFailedException(storageFileSaveFailedException);
+
+            Mock<IConvertAdapter> someConvertAdapter =
+                new Mock<IConvertAdapter>();
+
+            this.convertAdapterResolverMock.Setup(resolver =>
+                resolver.Resolve(It.IsAny<string>()))
+                    .Returns(someConvertAdapter.Object);
+
+            this.storageBrokerMock.Setup(storage =>
+                storage.WriteTextToFileAsync(It.IsAny<string>(), somePath))
+                    .Throws(storageFileSaveFailedException);
+
+            //when
+            await Assert.ThrowsAsync<ConvertedFileSaveFailedException>(() =>
+                this.convertService.ConvertAsync(It.IsAny<string>(), It.IsAny<string>(), dummyData, somePath));
+
+            //then
+            this.loggingBrokerMock.Verify(logginBroker =>
+               logginBroker.LogError(It.Is(SameExceptionAs(
+                   expectedConvertedFileSaveFailedException))),
+                       Times.Once());
+
+            this.storageBrokerMock.Verify(storageBroker =>
+                storageBroker.WriteTextToFileAsync(It.IsAny<string>(), somePath),
+                    Times.Once);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
