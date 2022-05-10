@@ -2,6 +2,6 @@
 {
     public interface IConvertService
     {
-        string Convert(string keyFrom, string keyTo);
+        Task<string> ConvertAsync(string keyFrom, string keyTo, byte[] fileData, string targetPath);
     }
 }

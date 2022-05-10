@@ -2,7 +2,7 @@
 {
     public interface IStorageBroker
     {
-        string ReadTextFromFile(string path);
-        string WriteTextToFile(string path);
+        string ReadTextFromFile(string sourcePath);
+        string WriteTextToFile(string text, string targetPath);
     }
 }

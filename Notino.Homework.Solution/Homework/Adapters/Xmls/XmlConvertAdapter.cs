@@ -33,6 +33,7 @@ namespace Homework.Adapters.Xmls
                 new XElement("Root",
                     new XElement(nameof(document.Title), document.Title),
                            new XElement(nameof(document.Text), document.Text)));
+
             return xDoc.ToString();
         }
 

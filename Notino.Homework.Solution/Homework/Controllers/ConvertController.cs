@@ -18,7 +18,7 @@ namespace Homework.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            this.convertService.Convert(".xml", ".json");
+            //this.convertService.Convert(".xml", ".json");
 
             return Ok();
         }

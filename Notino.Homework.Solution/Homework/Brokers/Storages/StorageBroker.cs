@@ -1,15 +1,24 @@
-﻿namespace Homework.Brokers.Storages
+﻿using Homework.Brokers.Storages.Exceptions;
+
+namespace Homework.Brokers.Storages
 {
     public class StorageBroker : IStorageBroker
     {
-        public string ReadTextFromFile(string path)
+        public string ReadTextFromFile(string sourcePath)
         {
-            throw new NotImplementedException();
+             return File.ReadAllText(sourcePath);
         }
 
-        public string WriteTextToFile(string path)
+        public string WriteTextToFile(string text, string targetPath)
         {
-            throw new NotImplementedException();
+            if(File.Exists(targetPath))
+            {
+                throw new FileAlreadyExistsException(targetPath);
+            }
+
+            File.WriteAllText(targetPath, text);
+
+            return targetPath;
         }
     }
 }
