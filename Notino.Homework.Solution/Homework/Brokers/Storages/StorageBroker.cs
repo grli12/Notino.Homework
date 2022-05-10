@@ -4,12 +4,12 @@ namespace Homework.Brokers.Storages
 {
     public class StorageBroker : IStorageBroker
     {
-        public string ReadTextFromFile(string sourcePath)
+        public async Task<string> ReadTextFromFileAsync(string sourcePath)
         {
-             return File.ReadAllText(sourcePath);
+             return await File.ReadAllTextAsync(sourcePath);
         }
 
-        public string WriteTextToFile(string text, string targetPath)
+        public async Task<string> WriteTextToFileAsync(string text, string targetPath)
         {
             if(File.Exists(targetPath))
             {
@@ -18,7 +18,7 @@ namespace Homework.Brokers.Storages
 
             try
             {
-                File.WriteAllText(targetPath, text);
+                await File.WriteAllTextAsync(targetPath, text);
 
                 return targetPath;
             }

@@ -37,6 +37,7 @@ namespace Homework.Services.Converts
                     this.convertAdapterResolver.Resolve(keyTo);
 
                 string convertedText = await ConvertFileAsync(convertFromAdapter, convertToAdapter, fileData);
+                string convertedFilePath = await this.storageBroker.WriteTextToFileAsync(convertedText, targetPath);
 
                 return string.Empty;
             }

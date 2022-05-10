@@ -134,7 +134,7 @@ namespace Homework.Tests.Converts.Services
                     Times.Between(1,2, Moq.Range.Inclusive));
 
             this.storageBrokerMock.Verify(storage =>
-                storage.WriteTextToFile(It.IsAny<string>(), It.IsAny<string>()),
+                storage.WriteTextToFileAsync(It.IsAny<string>(), It.IsAny<string>()),
                     Times.Never());
 
             convertAdapterToMock.Verify(adapter =>
@@ -192,7 +192,7 @@ namespace Homework.Tests.Converts.Services
                     Times.Between(1, 2, Moq.Range.Inclusive));
 
             this.storageBrokerMock.Verify(storage =>
-                storage.WriteTextToFile(It.IsAny<string>(), It.IsAny<string>()),
+                storage.WriteTextToFileAsync(It.IsAny<string>(), It.IsAny<string>()),
                     Times.Never());
 
             convertAdapterFromDocumentMock.Verify(adapter =>
@@ -229,7 +229,7 @@ namespace Homework.Tests.Converts.Services
                     .Returns(someConvertAdapter.Object);
 
             this.storageBrokerMock.Setup(storage =>
-                storage.WriteTextToFile(It.IsAny<string>(), somePath))
+                storage.WriteTextToFileAsync(It.IsAny<string>(), somePath))
                     .Throws(fileAlreadyExistsException);
 
             //when
