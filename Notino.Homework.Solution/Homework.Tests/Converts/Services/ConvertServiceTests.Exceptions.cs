@@ -173,7 +173,6 @@ namespace Homework.Tests.Converts.Services
                 new ConvertFailedException(adapterConvertFromDocumentFailedException);
 
             //when
-
             await Assert.ThrowsAsync<ConvertFailedException>(() =>
                 this.convertService.ConvertAsync(
                     keyFrom: It.IsAny<string>(),
@@ -196,9 +195,12 @@ namespace Homework.Tests.Converts.Services
                     Times.Never());
 
             convertAdapterFromDocumentMock.Verify(adapter =>
-                adapter.ConvertToDocument(It.IsAny<string>()),
+                adapter.ConvertToText(It.IsAny<Document>()),
                     Times.Once());
 
+            convertAdapterFromDocumentMock.Verify(adapter =>
+                adapter.ConvertToDocument(It.IsAny<string>()),
+                    Times.Once());
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();

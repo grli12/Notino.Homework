@@ -48,6 +48,10 @@ namespace Homework.Services.Converts
             {
                 throw CreateAndLogConvertFailedException(convertToDocumentFailedException);
             }
+            catch(AdapterConvertFromDocumentFailedException convertFromDocumentFailedException)
+            {
+                throw CreateAndLogConvertFailedException(convertFromDocumentFailedException);
+            }
 
         }
 
