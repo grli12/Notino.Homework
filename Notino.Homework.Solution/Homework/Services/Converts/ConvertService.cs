@@ -31,6 +31,9 @@ namespace Homework.Services.Converts
                 IConvertAdapter convertFromAdapter =
                     this.convertAdapterResolver.Resolve(keyFrom);
 
+                IConvertAdapter convertToAdapter =
+                    this.convertAdapterResolver.Resolve(keyTo);
+
                 return Task.FromResult(string.Empty);
             }
             catch (ConvertAdapterNotFoundException convertAdapterNotFoundException)

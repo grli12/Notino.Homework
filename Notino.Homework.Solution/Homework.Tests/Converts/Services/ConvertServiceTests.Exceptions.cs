@@ -1,4 +1,5 @@
-﻿using Homework.Adapters.Resolvers.Exceptions;
+﻿using Homework.Adapters;
+using Homework.Adapters.Resolvers.Exceptions;
 using Homework.Services.Converts.Exceptions;
 using Moq;
 using System;
@@ -77,11 +78,10 @@ namespace Homework.Tests.Converts.Services
 
             this.convertAdapterResolverMock.Verify(resolver =>
                 resolver.Resolve(keyTo),
-                    Times.Exactly(2));
+                    Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
-            this.convertAdapterResolverMock.VerifyNoOtherCalls();
         }
     }
 }
