@@ -29,12 +29,20 @@ namespace Homework.Adapters.Xmls
 
         public string ConvertToText(Document document)
         {
-            XDocument xDoc = new XDocument(
+            try
+            {
+                XDocument xDoc = new XDocument(
                 new XElement("Root",
                     new XElement(nameof(document.Title), document.Title),
                            new XElement(nameof(document.Text), document.Text)));
 
-            return xDoc.ToString();
+                return xDoc.ToString();
+            }
+            catch (Exception exception)
+            {
+                throw new AdapterConvertToDocumentFailedException(exception);
+            }
+            
         }
 
         private string GetValueFromElement(XDocument xDocuement, string elementName)

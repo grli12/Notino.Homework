@@ -57,12 +57,13 @@ namespace Homework.Services.Converts
             {
                 using(var streamReader = new StreamReader(memStream))
                 {
-                    string text = await streamReader.ReadToEndAsync();
-                    Document document = fromAdapter.ConvertToDocument(text);
+                    string inputText = await streamReader.ReadToEndAsync();
+                    Document document = fromAdapter.ConvertToDocument(inputText);
+                    string outputText = toAdapter.ConvertToText(document);
+
+                    return outputText;
                 }
             }
-
-            return string.Empty;
         }
 
         private UnsupportedConvertException CreateAndLogUnsupportedConvertException(Exception innerException)

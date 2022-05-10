@@ -23,7 +23,14 @@ namespace Homework.Adapters.Jsons
 
         public string ConvertToText(Document document)
         {
-            return JsonConvert.SerializeObject(document);
+            try
+            {
+                return JsonConvert.SerializeObject(document);
+            }
+            catch(Exception exception)
+            {
+                throw new AdapterConvertToDocumentFailedException(exception);
+            }
         }
     }
 }
