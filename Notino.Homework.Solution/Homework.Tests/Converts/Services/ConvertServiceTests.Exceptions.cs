@@ -93,6 +93,8 @@ namespace Homework.Tests.Converts.Services
             var someInnerException =
                 new Exception("someInnerException");
 
+            byte[] dummyData = new byte[10];
+
             var adapterConvertToDocumentFailedException =
                 new AdapterConvertToDocumentFailedException(someInnerException);
 
@@ -116,7 +118,7 @@ namespace Homework.Tests.Converts.Services
                 this.convertService.ConvertAsync(
                     keyFrom: It.IsAny<string>(),
                     keyTo: It.IsAny<string>(),
-                    fileData: It.IsAny<byte[]>(),
+                    fileData: dummyData,
                     targetPath: It.IsAny<string>()));
 
             //then
@@ -132,6 +134,11 @@ namespace Homework.Tests.Converts.Services
             this.storageBrokerMock.Verify(storage =>
                 storage.WriteTextToFile(It.IsAny<string>(), It.IsAny<string>()),
                     Times.Never());
+
+            convertAdapterToMock.Verify(adapter =>
+                adapter.ConvertToDocument(It.IsAny<string>()),
+                    Times.Once());
+                    
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
