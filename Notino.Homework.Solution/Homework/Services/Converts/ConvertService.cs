@@ -26,19 +26,18 @@ namespace Homework.Services.Converts
 
         public Task<string> ConvertAsync(string keyFrom, string keyTo, byte[] fileData, string targetPath)
         {
-            throw new NotImplementedException();
-            /*try
+            try
             {
                 IConvertAdapter convertFromAdapter =
                     this.convertAdapterResolver.Resolve(keyFrom);
 
                 return Task.FromResult(string.Empty);
             }
-            catch(ConvertAdapterNotFoundException convertAdapterNotFoundException)
+            catch (ConvertAdapterNotFoundException convertAdapterNotFoundException)
             {
                 throw CreateAndLogUnsupportedConvertException(convertAdapterNotFoundException);
-            }*/
-           
+            }
+
         }
 
         private UnsupportedConvertException CreateAndLogUnsupportedConvertException(Exception innerException)
