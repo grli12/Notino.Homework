@@ -58,6 +58,11 @@ namespace Homework.Services.Converts
             {
                 throw CreateAndLogConvertedFileSaveFailedException(fileAlreadyExistsException);
             }
+            catch (StorageFileSaveFailedException storageFileSaveFailedException)
+            {
+                throw CreateAndLogConvertedFileSaveFailedException(storageFileSaveFailedException);
+            }
+
 
         }
 
