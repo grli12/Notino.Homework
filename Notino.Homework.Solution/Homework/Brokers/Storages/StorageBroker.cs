@@ -16,9 +16,16 @@ namespace Homework.Brokers.Storages
                 throw new FileAlreadyExistsException(targetPath);
             }
 
-            File.WriteAllText(targetPath, text);
+            try
+            {
+                File.WriteAllText(targetPath, text);
 
-            return targetPath;
+                return targetPath;
+            }
+            catch(Exception innerException)
+            {
+                throw new StorageFileSaveFailedException(innerException);
+            }
         }
     }
 }
