@@ -1,6 +1,7 @@
 ﻿using Homework.Adapters;
 using Homework.Adapters.Resolvers.Exceptions;
 using Homework.Adapters.Shared.Exceptions;
+using Homework.Brokers.Storages.Exceptions;
 using Homework.Models;
 using Homework.Services.Converts.Exceptions;
 using Moq;
@@ -205,6 +206,44 @@ namespace Homework.Tests.Converts.Services
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.convertAdapterResolverMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowConvertedFileSaveFailedExceptionOnConvertWhenFileAlreadyExistsExceptionIsThrownAndLogItAsync()
+        {
+            //given
+            string somePath = "somePath";
+            byte[] dummyData = new byte[10];
+
+            var fileAlreadyExistsException =
+                new FileAlreadyExistsException(somePath);
+
+            var expectedConvertedFileSaveFailedException =
+                new ConvertedFileSaveFailedException(fileAlreadyExistsException);
+
+            Mock<IConvertAdapter> someConvertAdapter =
+                new Mock<IConvertAdapter>();
+
+            this.convertAdapterResolverMock.Setup(resolver =>
+                resolver.Resolve(It.IsAny<string>()))
+                    .Returns(someConvertAdapter.Object);
+
+            this.storageBrokerMock.Setup(storage =>
+                storage.WriteTextToFile(It.IsAny<string>(), somePath))
+                    .Throws(fileAlreadyExistsException);
+
+            //when
+            await Assert.ThrowsAsync<ConvertedFileSaveFailedException>(() =>
+                this.convertService.ConvertAsync(It.IsAny<string>(), It.IsAny<string>(), dummyData, somePath));
+
+            //then
+             this.loggingBrokerMock.Verify(logginBroker =>
+                logginBroker.LogError(It.Is(SameExceptionAs(
+                    expectedConvertedFileSaveFailedException))),
+                        Times.Once());
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
