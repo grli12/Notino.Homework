@@ -19,7 +19,7 @@ namespace Homework.Tests.Converts.Services
             string keyFrom = "keyFrom";
 
             var convertAdapterNotFoundException =
-                new ConvertAdapterNotFoundException();
+                new ConvertAdapterNotFoundException(keyFrom);
 
             var expectedUnsupportedConvertException =
                 new UnsupportedConvertException(convertAdapterNotFoundException);
@@ -29,12 +29,10 @@ namespace Homework.Tests.Converts.Services
                     .Throws(convertAdapterNotFoundException);
 
             //when
-            Task<string> convertTask = 
-                this.convertService.ConvertAsync(keyFrom, It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<string>());
+            await Assert.ThrowsAsync<UnsupportedConvertException>(() =>
+                this.convertService.ConvertAsync(keyFrom, It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<string>()));
 
             //then
-            await Assert.ThrowsAsync<UnsupportedConvertException>(() =>
-                convertTask);
 
             this.loggingBrokerMock.Verify(logginBroker =>
                 logginBroker.LogError(It.Is(SameExceptionAs(

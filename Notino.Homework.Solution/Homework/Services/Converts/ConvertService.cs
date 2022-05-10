@@ -4,6 +4,7 @@ using Homework.Adapters.Resolvers.Exceptions;
 using Homework.Brokers.Loggings;
 using Homework.Brokers.Storages;
 using Homework.Constants;
+using Homework.Services.Converts.Exceptions;
 
 namespace Homework.Services.Converts
 {
@@ -26,6 +27,28 @@ namespace Homework.Services.Converts
         public Task<string> ConvertAsync(string keyFrom, string keyTo, byte[] fileData, string targetPath)
         {
             throw new NotImplementedException();
+            /*try
+            {
+                IConvertAdapter convertFromAdapter =
+                    this.convertAdapterResolver.Resolve(keyFrom);
+
+                return Task.FromResult(string.Empty);
+            }
+            catch(ConvertAdapterNotFoundException convertAdapterNotFoundException)
+            {
+                throw CreateAndLogUnsupportedConvertException(convertAdapterNotFoundException);
+            }*/
+           
+        }
+
+        private UnsupportedConvertException CreateAndLogUnsupportedConvertException(Exception innerException)
+        {
+            var unsupportedConvertException = 
+                new UnsupportedConvertException(innerException);
+
+            this.loggingBroker.LogError(unsupportedConvertException);
+
+            return unsupportedConvertException;
         }
     }
 }
