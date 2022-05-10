@@ -77,11 +77,12 @@ namespace Homework.Tests.Converts.Services
                         Times.Once());
 
             this.convertAdapterResolverMock.Verify(resolver =>
-                resolver.Resolve(keyTo),
-                    Times.Once);
+                resolver.Resolve(It.IsAny<string>()),
+                    Times.Exactly(2));
 
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.convertAdapterResolverMock.VerifyNoOtherCalls();
         }
     }
 }
