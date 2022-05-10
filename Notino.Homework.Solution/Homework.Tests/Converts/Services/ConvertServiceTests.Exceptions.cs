@@ -16,7 +16,7 @@ namespace Homework.Tests.Converts.Services
     public partial class ConvertServiceTests
     {
         [Fact]
-        public async void ShouldThrowUnsupportedConvertExceptionOnConvertWhenConvertAdapterNotFoundExceptionIsThrown()
+        public async Task ShouldThrowUnsupportedConvertExceptionOnConvertWhenConvertAdapterNotFoundExceptionIsThrownAndLogItAsync()
         {
             //given;
             string keyFrom = "keyFrom";
@@ -52,7 +52,7 @@ namespace Homework.Tests.Converts.Services
         }
 
         [Fact]
-        public async void ShouldThrowUnsupportedConvertExceptionOnConvertToWhenConvertAdapterNotFoundExceptionIsThrown()
+        public async Task ShouldThrowUnsupportedConvertExceptionOnConvertToWhenConvertAdapterNotFoundExceptionIsThrownAndLogItAsync()
         {
             //given;
             string keyTo = "keyTo";
@@ -88,7 +88,7 @@ namespace Homework.Tests.Converts.Services
         }
 
         [Fact]
-        public async void ShouldThrowConvertFailedExceptionOnConvertWhenAdapterConvertToDocumentFailedExceptionIsThrown()
+        public async Task ShouldThrowConvertFailedExceptionOnConvertWhenAdapterConvertToDocumentFailedExceptionIsThrownAndLogItAsync()
         {
             //given
             var someInnerException =
@@ -147,7 +147,7 @@ namespace Homework.Tests.Converts.Services
         }
 
         [Fact]
-        public async Task ShouldThrowConvertFailedExceptionOnConvertWhenAdapterConvertFromDocumentFailedExceptionIsThrown()
+        public async Task ShouldThrowConvertFailedExceptionOnConvertWhenAdapterConvertFromDocumentFailedExceptionIsThrownAndLogItAsync()
         {
             //given
             var someInnerException =
