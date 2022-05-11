@@ -81,13 +81,13 @@ namespace Homework.Services.Converts
             }
         }
 
-        private void ValidatePath(string targetPath)
+        private static void ValidatePath(string targetPath)
         {
             if (IsInvalidText(targetPath))
                 throw new InvalidTargetPathException();
         }
 
-        private void ValidateData(byte[] data)
+        private static void ValidateData(byte[] data)
         {
             if(data == null || data.Length == 0)
             {
@@ -95,13 +95,13 @@ namespace Homework.Services.Converts
             }
         }
 
-        private void ValidateKey(string key)
+        private static void ValidateKey(string key)
         {
             if (IsInvalidText(key))
                 throw new AdapterKeyValidationException();
         }
 
-        private bool IsInvalidText(string text)
+        private static bool IsInvalidText(string text)
         {
             return string.IsNullOrWhiteSpace(text);
         }
