@@ -1,11 +1,9 @@
 ﻿using Homework.Services.Converts;
 using Homework.Services.Converts.Exceptions;
 using Homework.Services.Emails;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Homework.Controllers
 {

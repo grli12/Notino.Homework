@@ -1,5 +1,4 @@
 ﻿using Homework.Adapters.Resolvers.Exceptions;
-using Homework.Adapters.Xmls;
 
 namespace Homework.Adapters.Resolvers
 {
