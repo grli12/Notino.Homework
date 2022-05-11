@@ -57,6 +57,9 @@ namespace Homework.Tests.Converts.Services
         {
             //given;
             string keyTo = "keyTo";
+            string randomKey = GetRandomText();
+            string randomPath = GetRandomText();
+            byte[] dummyData = new byte[10];
 
             var convertAdapterNotFoundException =
                 new ConvertAdapterNotFoundException(keyTo);
@@ -70,7 +73,7 @@ namespace Homework.Tests.Converts.Services
 
             //when
             await Assert.ThrowsAsync<UnsupportedConvertException>(() =>
-                this.convertService.ConvertAsync(It.IsAny<string>(),keyTo, It.IsAny<byte[]>(), It.IsAny<string>()));
+                this.convertService.ConvertAsync(randomKey,keyTo, dummyData, randomPath));
 
             //then
 
@@ -92,6 +95,9 @@ namespace Homework.Tests.Converts.Services
         public async Task ShouldThrowConvertFailedExceptionOnConvertWhenAdapterConvertToDocumentFailedExceptionIsThrownAndLogItAsync()
         {
             //given
+            string randomKey = GetRandomText();
+            string randomPath = GetRandomText();
+
             var someInnerException =
                 new Exception("someInnerException");
 
@@ -118,10 +124,10 @@ namespace Homework.Tests.Converts.Services
 
             await Assert.ThrowsAsync<ConvertFailedException>(() =>
                 this.convertService.ConvertAsync(
-                    keyFrom: It.IsAny<string>(),
-                    keyTo: It.IsAny<string>(),
+                    keyFrom: randomKey,
+                    keyTo: randomKey,
                     fileData: dummyData,
-                    targetPath: It.IsAny<string>()));
+                    targetPath: randomPath));
 
             //then
             this.loggingBrokerMock.Verify(logginBroker =>
@@ -151,6 +157,9 @@ namespace Homework.Tests.Converts.Services
         public async Task ShouldThrowConvertFailedExceptionOnConvertWhenAdapterConvertFromDocumentFailedExceptionIsThrownAndLogItAsync()
         {
             //given
+            string randomKey = GetRandomText();
+            string randomPath = GetRandomText();
+
             var someInnerException =
                 new Exception("someInnerException");
 
@@ -176,10 +185,10 @@ namespace Homework.Tests.Converts.Services
             //when
             await Assert.ThrowsAsync<ConvertFailedException>(() =>
                 this.convertService.ConvertAsync(
-                    keyFrom: It.IsAny<string>(),
-                    keyTo: It.IsAny<string>(),
+                    keyFrom: randomKey,
+                    keyTo: randomKey,
                     fileData: dummyData,
-                    targetPath: It.IsAny<string>()));
+                    targetPath: randomPath));
 
             //then
             this.loggingBrokerMock.Verify(logginBroker =>
@@ -212,6 +221,7 @@ namespace Homework.Tests.Converts.Services
         public async Task ShouldThrowConvertedFileSaveFailedExceptionOnConvertWhenFileAlreadyExistsExceptionIsThrownAndLogItAsync()
         {
             //given
+            string randomKey = GetRandomText();
             string somePath = "somePath";
             byte[] dummyData = new byte[10];
 
@@ -234,7 +244,7 @@ namespace Homework.Tests.Converts.Services
 
             //when
             await Assert.ThrowsAsync<ConvertedFileSaveFailedException>(() =>
-                this.convertService.ConvertAsync(It.IsAny<string>(), It.IsAny<string>(), dummyData, somePath));
+                this.convertService.ConvertAsync(randomKey, randomKey, dummyData, somePath));
 
             //then
              this.loggingBrokerMock.Verify(logginBroker =>
@@ -254,6 +264,7 @@ namespace Homework.Tests.Converts.Services
         public async Task ShouldThrowConvertedFileSaveFailedExceptionOnConvertWhenStorageFileSaveFailedExceptionIsThrownAndLogItAsync()
         {
             //given
+            string randomKey = GetRandomText();
             string somePath = "somePath";
             byte[] dummyData = new byte[10];
             var someInnerException = new Exception("Some inner exception");
@@ -277,7 +288,7 @@ namespace Homework.Tests.Converts.Services
 
             //when
             await Assert.ThrowsAsync<ConvertedFileSaveFailedException>(() =>
-                this.convertService.ConvertAsync(It.IsAny<string>(), It.IsAny<string>(), dummyData, somePath));
+                this.convertService.ConvertAsync(randomKey, randomKey, dummyData, somePath));
 
             //then
             this.loggingBrokerMock.Verify(logginBroker =>

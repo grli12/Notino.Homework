@@ -31,7 +31,7 @@ namespace Homework.Services.Converts
         {
             try
             {
-                //ValidateKey(keyFrom);
+                ValidateKey(keyFrom);
                 //ValidateKey(keyTo);
                 //ValidateData(fileData)
                 //ValidatePath(targetPath)
@@ -46,6 +46,10 @@ namespace Homework.Services.Converts
                 string convertedFilePath = await this.storageBroker.WriteTextToFileAsync(convertedText, targetPath);
 
                 return convertedFilePath;
+            }
+            catch(AdapterKeyValidationException adapterKeyValidationException)
+            {
+                throw CreateAndLogConvertValidationException(adapterKeyValidationException);
             }
             catch (ConvertAdapterNotFoundException convertAdapterNotFoundException)
             {
@@ -137,6 +141,15 @@ namespace Homework.Services.Converts
             this.loggingBroker.LogError(convertFailedException);
 
             return convertFailedException;
+        }
+        private ConvertValidationException CreateAndLogConvertValidationException(Exception innerException)
+        {
+            var convertValidationException =
+                new ConvertValidationException(innerException);
+
+            this.loggingBroker.LogError(convertValidationException);
+
+            return convertValidationException;
         }
     }
 }
