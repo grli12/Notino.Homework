@@ -34,7 +34,7 @@ namespace Homework.Services.Converts
                 ValidateKey(keyFrom);
                 ValidateKey(keyTo);
                 //ValidateData(fileData)
-                //ValidatePath(targetPath)
+                ValidatePath(targetPath);
 
                 IConvertAdapter convertFromAdapter =
                     this.convertAdapterResolver.Resolve(keyFrom);
@@ -50,6 +50,10 @@ namespace Homework.Services.Converts
             catch(AdapterKeyValidationException adapterKeyValidationException)
             {
                 throw CreateAndLogConvertValidationException(adapterKeyValidationException);
+            }
+            catch(InvalidTargetPathException invalidTargetPathException)
+            {
+                throw CreateAndLogConvertValidationException(invalidTargetPathException);
             }
             catch (ConvertAdapterNotFoundException convertAdapterNotFoundException)
             {
