@@ -277,7 +277,7 @@ namespace Homework.Tests.Converts.Services
                 new StorageFileSaveFailedException(someInnerException);
 
             var expectedConvertedFileSaveFailedException =
-                new ConvertedFileSaveFailedException(storageFileSaveFailedException);
+                new ConvertedFileSaveFailedException(someInnerException);
 
             Mock<IConvertAdapter> someConvertAdapter =
                 new Mock<IConvertAdapter>();

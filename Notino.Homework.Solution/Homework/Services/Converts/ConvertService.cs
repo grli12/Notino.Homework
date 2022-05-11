@@ -33,7 +33,7 @@ namespace Homework.Services.Converts
             {
                 ValidateKey(keyFrom);
                 ValidateKey(keyTo);
-                //ValidateData(fileData)
+                ValidateData(fileData);
                 ValidatePath(targetPath);
 
                 IConvertAdapter convertFromAdapter =
@@ -50,6 +50,10 @@ namespace Homework.Services.Converts
             catch(AdapterKeyValidationException adapterKeyValidationException)
             {
                 throw CreateAndLogConvertValidationException(adapterKeyValidationException);
+            }
+            catch(FileDataValidationException fileDataValidationException)
+            {
+                throw CreateAndLogConvertValidationException(fileDataValidationException);
             }
             catch(InvalidTargetPathException invalidTargetPathException)
             {
@@ -117,8 +121,10 @@ namespace Homework.Services.Converts
             }
         }
 
-        private ConvertedFileSaveFailedException CreateAndLogConvertedFileSaveFailedException(Exception innerException)
+        private ConvertedFileSaveFailedException CreateAndLogConvertedFileSaveFailedException(Exception exception)
         {
+            Exception innerException = exception.InnerException ?? exception;
+
             var convertedFileSaveFailedException =
                 new ConvertedFileSaveFailedException(innerException);
 
