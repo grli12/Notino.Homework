@@ -3,7 +3,7 @@
     public class StorageFileSaveFailedException : Exception
     {
         public StorageFileSaveFailedException(Exception innerException)
-            : base(message: "File cannot be saved. See inner exception for details.", innerException)
+            : base(message: "File could not be saved at target path.", innerException)
         {
 
         }

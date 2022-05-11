@@ -31,6 +31,11 @@ namespace Homework.Services.Converts
         {
             try
             {
+                //ValidateKey(keyFrom);
+                //ValidateKey(keyTo);
+                //ValidateData(fileData)
+                //ValidatePath(targetPath)
+
                 IConvertAdapter convertFromAdapter =
                     this.convertAdapterResolver.Resolve(keyFrom);
 
@@ -40,7 +45,7 @@ namespace Homework.Services.Converts
                 string convertedText = await ConvertFileAsync(convertFromAdapter, convertToAdapter, fileData);
                 string convertedFilePath = await this.storageBroker.WriteTextToFileAsync(convertedText, targetPath);
 
-                return string.Empty;
+                return convertedFilePath;
             }
             catch (ConvertAdapterNotFoundException convertAdapterNotFoundException)
             {
@@ -62,8 +67,31 @@ namespace Homework.Services.Converts
             {
                 throw CreateAndLogConvertedFileSaveFailedException(storageFileSaveFailedException);
             }
+        }
 
+        private void ValidatePath(string targetPath)
+        {
+            if (IsInvalidText(targetPath))
+                throw new InvalidTargetPathException();
+        }
 
+        private void ValidateData(byte[] data)
+        {
+            if(data == null || data.Length == 0)
+            {
+                throw new FileDataValidationException();
+            }
+        }
+
+        private void ValidateKey(string key)
+        {
+            if (IsInvalidText(key))
+                throw new AdapterKeyValidationException();
+        }
+
+        private bool IsInvalidText(string text)
+        {
+            return string.IsNullOrWhiteSpace(text);
         }
 
         private async Task<string> ConvertFileAsync(IConvertAdapter fromAdapter, IConvertAdapter toAdapter, byte[] fileData)

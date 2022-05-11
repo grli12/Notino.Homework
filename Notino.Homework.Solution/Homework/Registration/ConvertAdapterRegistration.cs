@@ -21,11 +21,11 @@ namespace Homework.Registration
         {
             if(adapterPool == null || adapterPool.ContainsKey(key))
             {
-                throw new InvalidOperationException();//TODO: nahradit vlastnou vynimkou
+                throw new InvalidOperationException("Adapter cannot be added.");
             }
 
             services.AddScoped<IConvertAdapter, T>();
-            adapterPool?.Add(key, typeof(T));
+            adapterPool!.Add(key, typeof(T));
 
             return services;
         }
