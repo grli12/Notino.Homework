@@ -71,5 +71,35 @@ namespace Homework.Tests.Converts.Services
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("   ")]
+        public async Task ShouldThrowValidationExceptionOnConvertWhenTargetPathIsInvalidAndLogItAsync(
+            string invalidTargetPath)
+        {
+            string validConvertKey = GetRandomText();
+            byte[] validData = new byte[10];
+            string validPath = GetRandomText();
+            //given
+            var adapterKeyValidationException =
+                new AdapterKeyValidationException();
+
+            var expectedConvertValidationException =
+                new ConvertValidationException(adapterKeyValidationException);
+
+            //when
+            await Assert.ThrowsAsync<ConvertValidationException>(() =>
+                this.convertService.ConvertAsync(validConvertKey, validConvertKey, validData, invalidTargetPath));
+
+            //then
+            this.loggingBrokerMock.Verify(logging =>
+                logging.LogError(It.Is(SameExceptionAs(expectedConvertValidationException))));
+
+            this.convertAdapterResolverMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
