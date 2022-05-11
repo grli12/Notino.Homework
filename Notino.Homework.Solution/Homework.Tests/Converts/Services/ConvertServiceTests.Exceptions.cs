@@ -21,6 +21,10 @@ namespace Homework.Tests.Converts.Services
         {
             //given;
             string keyFrom = "keyFrom";
+            string randomKey = GetRandomText();
+            string randomPath = GetRandomText();
+            byte[] dummyData = new byte[10];
+
 
             var convertAdapterNotFoundException =
                 new ConvertAdapterNotFoundException(keyFrom);
@@ -34,7 +38,7 @@ namespace Homework.Tests.Converts.Services
 
             //when
             await Assert.ThrowsAsync<UnsupportedConvertException>(() =>
-                this.convertService.ConvertAsync(keyFrom, It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<string>()));
+                this.convertService.ConvertAsync(keyFrom, randomKey, dummyData, randomPath));
 
             //then
 

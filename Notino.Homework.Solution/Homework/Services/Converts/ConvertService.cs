@@ -32,7 +32,7 @@ namespace Homework.Services.Converts
             try
             {
                 ValidateKey(keyFrom);
-                //ValidateKey(keyTo);
+                ValidateKey(keyTo);
                 //ValidateData(fileData)
                 //ValidatePath(targetPath)
 
